@@ -1,89 +1,20 @@
-console.log("If you are reading this message, we are all good brotha!")
+console.log("If you are reading this message, we are all good brotha!");
 
 //Setting our canvas game-board (800 x 500)
-const gameBoard = document.getElementById('game-board');
-const ctx = gameBoard.getContext('2d');
+const gameBoard = document.getElementById("game-board");
+const ctx = gameBoard.getContext("2d");
 let frames = 0;
+  
 
-//Main character (Alien)
-class Alien {
-  constructor(color){
-    this.color = color;
-    this.img = new Image();
-    this.width = 50;
-    this.height = 50;
-    this.x = (gameBoard.width / 2) - this.width / 2;
-    this.y = (gameBoard.height / 2) - this.height / 2;
-    this.speedX = 0;
-    this.speedY = 0;
-    this.lifes = 10;
-    this.score = Math.floor(frames / 60);
-  }
-
-  //Draw Alien
-  drawAlien(){
-    ctx.fillStyle = this.color;
-    ctx.fillRect(this.x, this.y, this.width, this.height);
-  }
-
-  //New position after keyboard clicks
-  alienNewPos() {
-    this.y += this.speedY;
-    if(this.y < 0) {
-      this.y = 1;
-    }
-    if(this.y > gameBoard.height - this.height) {
-      this.y = gameBoard.height - this.height - 1;
-    }
-    this.x += this.speedX;
-    if(this.x < 0) {
-      this.x = 1;
-    }
-    if(this.x > gameBoard.width - this.width) {
-      this.x = gameBoard.width - this.width - 1;
-    }
-  }
-}
-
-//Enemies array
-let enemiesArray = [];
-
-class Enemies {
-  constructor(){
-    this.color = "red";
-    this.img = new Image();
-    this.width = 25;
-    this.heigth = 25;
-    this.x = Math.floor(Math.random() * gameBoard.width - this.width + 1);
-    this.y = 0;
-    this.speedX = 1 + Math.random() * 6; //random speed X
-    // this.speedY = 1 + Math.random() * 3; //random speed Y
-    this.speedY = 2;
-  }
-
-  //Draw Enemy
-  drawEnemies(){
-    this.y += this.speedY;
-    ctx.fillStyle = this.color;
-    ctx.fillRect(this.x, this.y, this.width, this.heigth);
-  }
-}
+//Calling new Alien
+const bigAlien = new Alien("blue");
 
 //Animation
 //1. Clear the canvas
-const clearGameBoard = () => ctx.clearRect(0, 0, gameBoard.width, gameBoard.height);
+const clearGameBoard = () =>
+  ctx.clearRect(0, 0, gameBoard.width, gameBoard.height);
 
-//2. Creating Random Enemies
-//Add new enemy to our enemies array after 4 seconds (our game is running 60 FPS because of request animation frame) 
-const addNewEnemiesToEnemiesArray = () => {
-  if(frames % 60 === 0){
-    enemiesArray.push(new Enemies());
-  }
-};
-// Loop the array and draw a new enemy for each array element
-const createNewEnemies = () => enemiesArray.forEach(element => element.drawEnemies());
-
-// 3. Moving Alien
+// 2. Moving Alien and Bullets
 // Moving Alien by keyboard clicks
 document.onkeydown = function(e) {
   switch (e.keyCode) {
@@ -99,6 +30,9 @@ document.onkeydown = function(e) {
     case 39: // right arrow
       bigAlien.speedX += 10;
       break;
+    case 32: // spacebar
+      addNewBulletsToBulletsArray();
+      break;
     default:
       console.log(`${e.key} is not a valid key!`);
   }
@@ -109,61 +43,68 @@ document.onkeyup = function(e) {
   bigAlien.speedY = 0;
 };
 
-//4. Scores
+//3. Scores
 const gameScore = () => {
+  let score = Math.floor(frames / 60);
   ctx.font = "20px serif";
   ctx.fillStyle = "green";
-  ctx.fillText(`Survival time: ${bigAlien.score}s`, (gameBoard.width / 4) * 3.25, (gameBoard.height / 100) * 4);
+  ctx.fillText(
+    `Survival time: ${score}s`,
+    (gameBoard.width / 4) * 3.25,
+    (gameBoard.height / 100) * 4
+  );
+  return score;
 };
 
-//5. Lifes
+//4. Lifes
 const updateAlienLife = () => {
   let alienLifes = bigAlien.lifes;
   ctx.font = "20px serif";
   ctx.fillStyle = "green";
-  ctx.fillText(`Lifes: ${alienLifes}`, (gameBoard.width / 4) * 3.4, (gameBoard.height / 100) * 8);
+  ctx.fillText(
+    `Lifes: ${alienLifes}`,
+    (gameBoard.width / 4) * 3.4,
+    (gameBoard.height / 100) * 8
+  );
   //Every time an enemy cross the max height, Spongebob lost one life
   enemiesArray.forEach(element => {
-    if(element.y > gameBoard.height){
+    if (element.y > gameBoard.height) {
       element.y = 0;
       element.x = gameBoard.width;
       element.speedY = 0;
       bigAlien.lifes -= 1;
     }
-  })
-}
+  });
+};
 
-//6. Game Over
 const checkGameOver = () => {
-  if(bigAlien.lifes < 9){
-    ctx.font = '60px Pixel';
-    ctx.fillStyle = '#C73E1D';
-    ctx.fillText('GAME OVER =(', gameBoard.width/4, gameBoard.height/2.5);
-    ctx.font = '60px Pixel';
-    ctx.fillStyle = '#72BF8C';
-    ctx.fillText(`Your Survival Time is: ${bigAlien.score}s`, gameBoard.width/6, gameBoard.height/2);
-    // alert('GAME OVER =(');
+  if (bigAlien.lifes < 1) {
+    ctx.font = "60px Pixel";
+    ctx.fillStyle = "#C73E1D";
+    ctx.fillText("GAME OVER =(", gameBoard.width / 4, gameBoard.height / 2.5);
+    ctx.font = "60px Pixel";
+    ctx.fillStyle = "#72BF8C";
+    ctx.fillText(`Your Survival Time is: ${gameScore()}s`, gameBoard.width / 3, gameBoard.height / 2);
     window.cancelAnimationFrame();
   }
-}
-
-
-//Calling new Alien
-const bigAlien = new Alien("blue");
+};
 
 //Big function to call the game process (clear, draw, update...)
 const playTheGame = () => {
-  console.log('updating...');
+  console.log("updating...");
   clearGameBoard();
   bigAlien.drawAlien();
   bigAlien.alienNewPos();
   addNewEnemiesToEnemiesArray();
   createNewEnemies();
+  createNewBullets();
   updateAlienLife();
   gameScore();
+  enemyHit(enemiesArray, bulletsArray);
   checkGameOver();
+  // checkGameOver2();
   frames += 1;
   window.requestAnimationFrame(playTheGame);
-}
+};  
 
 playTheGame();
