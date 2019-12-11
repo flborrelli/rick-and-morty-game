@@ -1,10 +1,12 @@
 //Main character (Alien)
+
+let rickImg = new Image();
+
 class Alien {
   constructor(color) {
     this.color = color;
-    this.img = new Image();
-    this.width = 50;
-    this.height = 50;
+    this.width = 100;
+    this.height = 100;
     this.x = gameBoard.width / 2 - this.width / 2;
     this.y = gameBoard.height / 2 - this.height / 2;
     this.speedX = 0;
@@ -12,10 +14,21 @@ class Alien {
     this.lifes = 10;
   }
 
-  //Draw Alien
+  //Draw Rick and change image depending on onkey
   drawAlien() {
-    ctx.fillStyle = this.color;
-    ctx.fillRect(this.x, this.y, this.width, this.height);
+    if (!moveLeft && !moveRight && !moveBackward){
+      rickImg.src = 'rick.png';
+    } 
+    else if(moveLeft){
+      rickImg.src = 'rick-left2.png';
+    }
+    else if(moveRight){
+      rickImg.src = 'rick-right2.png';
+    }
+    else if(moveBackward){
+      rickImg.src = 'rick-front2.png';
+    }
+    ctx.drawImage(rickImg, this.x, this.y, this.width, this.height);
   }
 
   //New position after keyboard clicks
@@ -35,71 +48,30 @@ class Alien {
       this.x = gameBoard.width - this.width - 1;
     }
   }
+
+top() {
+  return this.y;
+}
+bottom() {
+  return this.y + this.height;
+}
+left() {
+  return this.x;
+}
+right() {
+  return this.x + this.width;
 }
 
+}
 
-//BULETS
-
-//Bullets array
-let bulletsArray = [];
-class Bullets {
-  constructor(){
-    this.color = "black";
-    this.img = new Image();
-    this.width = 10;
-    this.height = 10;
-    this.x = bigAlien.x + bigAlien.width/2 - 5;
-    this.y = bigAlien.y;
-    this.speedX = 0;
-    this.speedY = 0;
-  }
-  drawBullets() {
-    ctx.fillStyle = this.color;
-    ctx.fillRect(this.x, this.y, this.width, this.height);
-  }
-  //Bullet new position after shooting (spacebar keyboard click)
-  bulletNewPos() {
-    //If bullet is shooted, move it according to its speed
-    if(this.speedY > 0){
-      this.y -= this.speedY;
-    }
-      }
-  
-  //Sides of the bullet
-  top() {
-    return this.y;
-  }
-  bottom() {
-    return this.y + this.height;
-  }
-  left() {
-    return this.x;
-  }
-  right() {
-    return this.x + this.width;
-  }
-};
-
-const addNewBulletsToBulletsArray = () => {
-  let bullets = new Bullets();
-  bulletsArray.push(bullets);
-  bulletsArray[bulletsArray.length - 1].speedY = 10;
-};
-
-const enemyHit = (arr1, arr2) => {
-  for (let i = 0; i < arr1.length; i += 1){
-    for (let j = 0; j < arr2.length; j += 1){
-      if((arr1[i].bottom() < arr2[j].top()) && (arr1[i].left() < arr2[j].right()) && (arr1[i].right() > arr2[j].left())){
-        console.log("acertou");
+const alienHitByEnemy = (arr) => {
+  for (let i = 0; i < arr.length; i += 1){
+    if((arr[i].bottom() > bigAlien.top()) && (arr[i].left() < bigAlien.right()) && (arr[i].right() > bigAlien.left())){
+      arr.splice(i, 1);
+      bigAlien.lifes -= 2;
+      ctx.font = "30px Pixel";
+      ctx.fillStyle = "#C73E1D";
+      ctx.fillText("SPONGEBOB IN DANGER !!!! =(", gameBoard.width / 4, gameBoard.height / 2.5);
     }
   }
   }
-}
-
-//Loop the array and draw a new bullets for each array element
-const createNewBullets = () => {
-  bulletsArray.forEach(element => {
-    element.drawBullets()
-    element.bulletNewPos();
-  });
-}

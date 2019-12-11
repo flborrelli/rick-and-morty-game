@@ -4,31 +4,46 @@ console.log("If you are reading this message, we are all good brotha!");
 const gameBoard = document.getElementById("game-board");
 const ctx = gameBoard.getContext("2d");
 let frames = 0;
-  
+
+let background = new Image();
+background.src = 'background2.png';
+ctx.drawImage(background, 0, 0, gameBoard.width, gameBoard.height);
 
 //Calling new Alien
 const bigAlien = new Alien("blue");
 
 //Animation
 //1. Clear the canvas
-const clearGameBoard = () =>
-  ctx.clearRect(0, 0, gameBoard.width, gameBoard.height);
+const clearGameBoard = () => {
+  ctx.drawImage(background, 0, 0, gameBoard.width, gameBoard.height);
+}
+
+
 
 // 2. Moving Alien and Bullets
+
+//Turn Rick
+let moveLeft = false;
+let moveRight = false;
+let moveBackward = false;
+
 // Moving Alien by keyboard clicks
 document.onkeydown = function(e) {
   switch (e.keyCode) {
     case 38: // up arrow
-      bigAlien.speedY -= 10;
+      bigAlien.speedY -= 15;
       break;
     case 40: // down arrow
-      bigAlien.speedY += 10;
+      moveBackward = true;
+      bigAlien.speedY += 15;
       break;
     case 37: // left arrow
-      bigAlien.speedX -= 10;
+      moveLeft = true;
+      bigAlien.speedX -= 15;
       break;
     case 39: // right arrow
-      bigAlien.speedX += 10;
+    moveRight = true;
+      bigAlien.speedX += 15;
       break;
     case 32: // spacebar
       addNewBulletsToBulletsArray();
@@ -39,6 +54,9 @@ document.onkeydown = function(e) {
 };
 //Cut speed after the button was pressed
 document.onkeyup = function(e) {
+  moveLeft = false;
+  moveRight = false;
+  moveBackward = false;
   bigAlien.speedX = 0;
   bigAlien.speedY = 0;
 };
@@ -47,32 +65,30 @@ document.onkeyup = function(e) {
 const gameScore = () => {
   let score = Math.floor(frames / 60);
   ctx.font = "20px serif";
-  ctx.fillStyle = "green";
+  ctx.fillStyle = "#97ce4c";
   ctx.fillText(
     `Survival time: ${score}s`,
     (gameBoard.width / 4) * 3.25,
     (gameBoard.height / 100) * 4
   );
-  return score;
-};
+    return score;
+  };
 
 //4. Lifes
 const updateAlienLife = () => {
   let alienLifes = bigAlien.lifes;
   ctx.font = "20px serif";
-  ctx.fillStyle = "green";
+  ctx.fillStyle = "#97ce4c";
   ctx.fillText(
     `Lifes: ${alienLifes}`,
     (gameBoard.width / 4) * 3.4,
     (gameBoard.height / 100) * 8
   );
   //Every time an enemy cross the max height, Spongebob lost one life
-  enemiesArray.forEach(element => {
+  enemiesArray.forEach((element, idx) => {
     if (element.y > gameBoard.height) {
-      element.y = 0;
-      element.x = gameBoard.width;
-      element.speedY = 0;
       bigAlien.lifes -= 1;
+      enemiesArray.splice(idx, 1);
     }
   });
 };
@@ -80,14 +96,16 @@ const updateAlienLife = () => {
 const checkGameOver = () => {
   if (bigAlien.lifes < 1) {
     ctx.font = "60px Pixel";
-    ctx.fillStyle = "#C73E1D";
+    ctx.fillStyle = "plum";
     ctx.fillText("GAME OVER =(", gameBoard.width / 4, gameBoard.height / 2.5);
     ctx.font = "60px Pixel";
-    ctx.fillStyle = "#72BF8C";
+    ctx.fillStyle = "#97ce4c";
     ctx.fillText(`Your Survival Time is: ${gameScore()}s`, gameBoard.width / 3, gameBoard.height / 2);
-    window.cancelAnimationFrame();
+    window.cancelAnimationFrame(requestId);
   }
 };
+
+let requestId = 0;
 
 //Big function to call the game process (clear, draw, update...)
 const playTheGame = () => {
@@ -100,11 +118,12 @@ const playTheGame = () => {
   createNewBullets();
   updateAlienLife();
   gameScore();
-  enemyHit(enemiesArray, bulletsArray);
-  checkGameOver();
-  // checkGameOver2();
+  enemyHitByBullet(enemiesArray, bulletsArray);
+  alienHitByEnemy(enemiesArray);
   frames += 1;
-  window.requestAnimationFrame(playTheGame);
+  requestId = window.requestAnimationFrame(playTheGame)
+  checkGameOver();;
 };  
 
 playTheGame();
+

@@ -1,24 +1,23 @@
 //Enemies array
 let enemiesArray = [];
+let enemiesImg = new Image();
 
 class Enemies {
   constructor() {
     this.color = "red";
-    this.img = new Image();
-    this.width = 25;
-    this.height = 25;
-    this.x = Math.floor(Math.random() * (gameBoard.width - this.width) + this.width);
+    this.width = 70;
+    this.height = 70;
+    this.x = Math.floor(Math.random() * (gameBoard.width - this.width));
     this.y = 0;
-    this.speedX = 1 + Math.random() * 6; //random speed X
-    // this.speedY = 1 + Math.random() * 3; //random speed Y
-    this.speedY = 2;
+    this.speedY = 1+ Math.floor(Math.random() * 6); //random speed Y
+    // this.speedY = 6;
   }
 
   //Draw Enemy
   drawEnemies() {
     this.y += this.speedY;
-    ctx.fillStyle = this.color;
-    ctx.fillRect(this.x, this.y, this.width, this.height);
+    enemiesImg.src = 'pocket-morty.png';
+    ctx.drawImage(enemiesImg, this.x, this.y, this.width, this.height);
   }
 
   //Sides of the enemy
@@ -40,20 +39,10 @@ class Enemies {
 }
 }
 
-// function checkGameOver() {
-//   var crashed = enemiesArray.some(function(bullet) {
-//     return .crashWith(bullet);
-//   });
-
-//   if (crashed) {
-//     window.cancelAnimationFrame();
-//   }
-// }
-
 // Creating Random Enemies
 //Add new enemy to our enemies array after 4 seconds (our game is running 60 FPS because of request animation frame)
 const addNewEnemiesToEnemiesArray = () => {
-  if (frames % 60 === 0) {
+  if (frames % 120 === 0) {
     enemiesArray.push(new Enemies());
   }
 };
