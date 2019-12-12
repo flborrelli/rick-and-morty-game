@@ -71,7 +71,7 @@ const alienHitByEnemy = (arr) => {
       bigAlien.lifes -= 2;
       ctx.font = "30px Pixel";
       ctx.fillStyle = "#C73E1D";
-      ctx.fillText("SPONGEBOB IN DANGER !!!! =(", gameBoard.width / 4, gameBoard.height / 2.5);
+      // ctx.fillText("SPONGEBOB IN DANGER !!!! =(", gameBoard.width / 4, gameBoard.height / 2.5);
     }
   }
   }

@@ -9,7 +9,7 @@ let background = new Image();
 background.src = 'background2.png';
 ctx.drawImage(background, 0, 0, gameBoard.width, gameBoard.height);
 
-//Calling new Alien
+//Calling new Rick
 const bigAlien = new Alien("blue");
 
 //Animation
@@ -17,8 +17,6 @@ const bigAlien = new Alien("blue");
 const clearGameBoard = () => {
   ctx.drawImage(background, 0, 0, gameBoard.width, gameBoard.height);
 }
-
-
 
 // 2. Moving Alien and Bullets
 
@@ -106,6 +104,7 @@ const checkGameOver = () => {
 };
 
 let requestId = 0;
+let pauseGame = false;
 
 //Big function to call the game process (clear, draw, update...)
 const playTheGame = () => {
@@ -121,9 +120,27 @@ const playTheGame = () => {
   enemyHitByBullet(enemiesArray, bulletsArray);
   alienHitByEnemy(enemiesArray);
   frames += 1;
-  requestId = window.requestAnimationFrame(playTheGame)
+  requestId = window.requestAnimationFrame(playTheGame);
   checkGameOver();;
 };  
 
-playTheGame();
-
+//Buttons click
+window.onload = function () {
+  document.getElementById("start-button").onclick = function (event) {
+    window.requestAnimationFrame(playTheGame);
+    event.target.disabled = true;
+    // event.target.disabled = false;
+  };
+  document.getElementById("pause-button").onclick = function () {
+    pauseGame = !pauseGame;
+    console.log(pauseGame);
+    if(!pauseGame){
+      requestId = requestAnimationFrame(playTheGame);
+    }else {
+      cancelAnimationFrame(requestId);
+    }
+  }
+  document.getElementById("restart-button").onclick = function () {
+    location.reload();
+  }
+}
