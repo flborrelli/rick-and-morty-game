@@ -8,6 +8,10 @@ Enjoy!
 
 Version: Beta 1
 
+![](/screenshot1.png)
+
+![](/screenshot3.png)
+
 ## Installation
 
 ## Usage
