@@ -115,7 +115,7 @@ const updateAlienLife = () => {
 };
 
 const checkGameOver = () => {
-  if (bigAlien.lifes < 8) {
+  if (bigAlien.lifes < 1) {
     ctx.font = "150px Ricks";
     ctx.fillStyle = "plum";
     ctx.fillText("GAME OVER", (gameBoard.width / 2) - 300, gameBoard.height / 2);
