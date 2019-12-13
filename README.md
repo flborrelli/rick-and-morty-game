@@ -8,7 +8,7 @@ Enjoy!
 
 Version: Beta 1
 
-![](/screenshot1.png)
+![](/readme-image1.png)
 
 ![](/screenshot3.png)
 
