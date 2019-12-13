@@ -39,6 +39,7 @@ Watchout: Morty touch will decrease two Ricks' lifes.
 * **Left arrow**: move Rick left
 * **Right arrow**: move Rick right
 * **Spacebar**: shoot pickle ricks
+* **P**: pause game
 
 ## Contributing
 >This is an open-source and free software. Please, feel free to collaborate =).
