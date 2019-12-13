@@ -8,7 +8,7 @@ class Alien {
     this.width = 100;
     this.height = 100;
     this.x = gameBoard.width / 2 - this.width / 2;
-    this.y = gameBoard.height / 2 - this.height / 2;
+    this.y = gameBoard.height -this.height;
     this.speedX = 0;
     this.speedY = 0;
     this.lifes = 10;
