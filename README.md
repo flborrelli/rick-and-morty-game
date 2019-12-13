@@ -2,7 +2,7 @@
 
 The Green Portal Under Attack is a Rick and Morty 2D Game build in HTML5 canvas, CSS3 and JavaScript.
 
-#### TLDR: https://flborrelli.github.io/sponge-bob-game/
+#### TLDR: https://flborrelli.github.io/rick-and-morty-game/
 
 Enjoy!
 
