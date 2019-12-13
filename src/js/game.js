@@ -4,6 +4,8 @@ console.log("If you are reading this message, we are all good brotha!");
 const gameBoard = document.getElementById("game-board");
 const ctx = gameBoard.getContext("2d");
 let frames = 0;
+let requestId = 0;
+let pauseGame = false;
 const themeSong = new Audio('theme.mp3');
 const hitMorty = new Audio('tiny-rick.wav');
 const shoot = new Audio('shot.mp3');
@@ -12,6 +14,19 @@ const portal = new Audio('portal.mp3');
 let background = new Image();
 background.src = 'background2.png';
 ctx.drawImage(background, 0, 0, gameBoard.width, gameBoard.height);
+
+const pauseNow = () => {
+  pauseGame = !pauseGame;
+    if(!pauseGame){
+      requestId = requestAnimationFrame(playTheGame);
+    }else {
+      ctx.font = '200px Ricks';
+      ctx.fillStyle = 'lightseagreen';
+      ctx.fillText('PAUSE', (gameBoard.width / 2) - 200, gameBoard.height / 2);
+      cancelAnimationFrame(requestId);
+      themeSong.pause();
+    }
+}
 
 //Calling new Rick
 const bigAlien = new Alien("blue");
@@ -51,6 +66,8 @@ document.onkeydown = function(e) {
       shoot.play();
       addNewBulletsToBulletsArray();
       break;
+    case 80: //P button
+      pauseNow();
     default:
       console.log(`${e.key} is not a valid key!`);
   }
@@ -67,12 +84,12 @@ document.onkeyup = function(e) {
 //3. Scores
 const gameScore = () => {
   let score = Math.floor(frames / 60);
-  ctx.font = "20px serif";
+  ctx.font = "20px Ricks";
   ctx.fillStyle = "#97ce4c";
   ctx.fillText(
     `Survival time: ${score}s`,
-    (gameBoard.width / 4) * 3.25,
-    (gameBoard.height / 100) * 4
+    (gameBoard.width / 4) * 3.20,
+    (gameBoard.height / 100) * 4.5
   );
     return score;
   };
@@ -80,12 +97,12 @@ const gameScore = () => {
 //4. Lifes
 const updateAlienLife = () => {
   let alienLifes = bigAlien.lifes;
-  ctx.font = "20px serif";
+  ctx.font = "20px Ricks";
   ctx.fillStyle = "#97ce4c";
   ctx.fillText(
     `Lifes: ${alienLifes}`,
     (gameBoard.width / 4) * 3.4,
-    (gameBoard.height / 100) * 8
+    (gameBoard.height / 100) * 10
   );
   //Every time an enemy cross the max height, Spongebob lost one life
   enemiesArray.forEach((element, idx) => {
@@ -98,20 +115,17 @@ const updateAlienLife = () => {
 };
 
 const checkGameOver = () => {
-  if (bigAlien.lifes < 1) {
-    ctx.font = "60px Pixel";
+  if (bigAlien.lifes < 8) {
+    ctx.font = "150px Ricks";
     ctx.fillStyle = "plum";
-    ctx.fillText("GAME OVER =(", gameBoard.width / 4, gameBoard.height / 2.5);
-    ctx.font = "60px Pixel";
-    ctx.fillStyle = "#97ce4c";
-    ctx.fillText(`Your Survival Time is: ${gameScore()}s`, gameBoard.width / 3, gameBoard.height / 2);
+    ctx.fillText("GAME OVER", (gameBoard.width / 2) - 300, gameBoard.height / 2);
+    ctx.font = "60px Ricks";
+    ctx.fillStyle = "palegreen";
+    ctx.fillText(`You survived: ${gameScore()}s`, (gameBoard.width / 2) - 60, gameBoard.height - 180);
     window.cancelAnimationFrame(requestId);
+    themeSong.pause();
   }
 };
-
-let requestId = 0;
-let pauseGame = false;
-
 
 //Big function to call the game process (clear, draw, update...)
 const playTheGame = () => {
@@ -140,13 +154,7 @@ window.onload = function () {
     // event.target.disabled = false;
   };
   document.getElementById("pause-button").onclick = function () {
-    pauseGame = !pauseGame;
-    console.log(pauseGame);
-    if(!pauseGame){
-      requestId = requestAnimationFrame(playTheGame);
-    }else {
-      cancelAnimationFrame(requestId);
-    }
+    pauseNow();
   }
   document.getElementById("restart-button").onclick = function () {
     location.reload();
