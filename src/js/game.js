@@ -4,6 +4,10 @@ console.log("If you are reading this message, we are all good brotha!");
 const gameBoard = document.getElementById("game-board");
 const ctx = gameBoard.getContext("2d");
 let frames = 0;
+const themeSong = new Audio('theme.mp3');
+const hitMorty = new Audio('tiny-rick.wav');
+const shoot = new Audio('shot.mp3');
+const portal = new Audio('portal.mp3');
 
 let background = new Image();
 background.src = 'background2.png';
@@ -44,6 +48,7 @@ document.onkeydown = function(e) {
       bigAlien.speedX += 15;
       break;
     case 32: // spacebar
+      shoot.play();
       addNewBulletsToBulletsArray();
       break;
     default:
@@ -85,6 +90,7 @@ const updateAlienLife = () => {
   //Every time an enemy cross the max height, Spongebob lost one life
   enemiesArray.forEach((element, idx) => {
     if (element.y > gameBoard.height) {
+      portal.play();
       bigAlien.lifes -= 1;
       enemiesArray.splice(idx, 1);
     }
@@ -106,6 +112,7 @@ const checkGameOver = () => {
 let requestId = 0;
 let pauseGame = false;
 
+
 //Big function to call the game process (clear, draw, update...)
 const playTheGame = () => {
   console.log("updating...");
@@ -119,6 +126,7 @@ const playTheGame = () => {
   gameScore();
   enemyHitByBullet(enemiesArray, bulletsArray);
   alienHitByEnemy(enemiesArray);
+  themeSong.play();
   frames += 1;
   requestId = window.requestAnimationFrame(playTheGame);
   checkGameOver();;

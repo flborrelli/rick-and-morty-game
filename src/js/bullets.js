@@ -61,6 +61,7 @@ const enemyHitByBullet = (arr1, arr2) => {
       // console.log('Enemies Array:', i, arr1.length);
       if((arr1[j].bottom() > arr2[i].top()) && (arr1[j].left() < arr2[i].right()) && (arr1[j].right() > arr2[i].left())){
         // console.log("acertou");
+        hitMorty.play();
         arr1.splice(j, 1);
         arr2.splice(i, 1);
     }
