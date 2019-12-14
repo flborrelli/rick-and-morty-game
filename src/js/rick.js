@@ -1,8 +1,8 @@
-//Main character (Alien)
+//Main character (Rick)
 
 let rickImg = new Image();
 
-class Alien {
+class Rick {
   constructor(color) {
     this.color = color;
     this.width = 100;
@@ -15,24 +15,24 @@ class Alien {
   }
 
   //Draw Rick and change image depending on onkey
-  drawAlien() {
+  drawRick() {
     if (!moveLeft && !moveRight && !moveBackward){
-      rickImg.src = 'rick.png';
+      rickImg.src = 'src/images/rick.png';
     } 
     else if(moveLeft){
-      rickImg.src = 'rick-left2.png';
+      rickImg.src = 'src/images/rick-left2.png';
     }
     else if(moveRight){
-      rickImg.src = 'rick-right2.png';
+      rickImg.src = 'src/images/rick-right2.png';
     }
     else if(moveBackward){
-      rickImg.src = 'rick-front2.png';
+      rickImg.src = 'src/images/rick-front2.png';
     }
     ctx.drawImage(rickImg, this.x, this.y, this.width, this.height);
   }
 
   //New position after keyboard clicks
-  alienNewPos() {
+  rickNewPos() {
     this.y += this.speedY;
     if (this.y < 0) {
       this.y = 1;
@@ -64,14 +64,13 @@ right() {
 
 }
 
-const alienHitByEnemy = (arr) => {
+const rickHitByEnemy = (arr) => {
   for (let i = 0; i < arr.length; i += 1){
-    if((arr[i].bottom() > bigAlien.top()) && (arr[i].left() < bigAlien.right()) && (arr[i].right() > bigAlien.left())){
+    if((arr[i].bottom() > bigRick.top()) && (arr[i].left() < bigRick.right()) && (arr[i].right() > bigRick.left())){
       arr.splice(i, 1);
-      bigAlien.lifes -= 2;
+      bigRick.lifes -= 2;
       ctx.font = "30px Pixel";
       ctx.fillStyle = "#C73E1D";
-      // ctx.fillText("SPONGEBOB IN DANGER !!!! =(", gameBoard.width / 4, gameBoard.height / 2.5);
     }
   }
   }

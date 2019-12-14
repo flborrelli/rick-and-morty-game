@@ -10,13 +10,13 @@ class Bullets {
     this.img = new Image();
     this.width = 25;
     this.height = 50;
-    this.x = bigAlien.x + bigAlien.width/2 - this.width/2;
-    this.y = bigAlien.y;
+    this.x = bigRick.x + bigRick.width/2 - this.width/2;
+    this.y = bigRick.y;
     this.speedX = 0;
     this.speedY = 5;
   }
   drawBullets() {
-    pickle.src = 'pickle2.png';
+    pickle.src = 'src/images/pickle2.png';
     ctx.drawImage(pickle, this.x, this.y, this.width, this.height);
   }
   //Bullet new position after shooting (spacebar keyboard click)

@@ -17,40 +17,40 @@ class Enemies {
   //Draw Enemy
   drawEnemies() {
     if (this.image === 1){
-      enemiesImg.src = 'pocket-morty.png';
+      enemiesImg.src = 'src/images/pocket-morty.png';
     }
     else if (this.image === 2){
-      enemiesImg.src = 'evil-morty.png';
+      enemiesImg.src = 'src/images/evil-morty.png';
     }
     else if (this.image === 3){
-      enemiesImg.src = 'wizard-morty.png';
+      enemiesImg.src = 'src/images/wizard-morty.png';
     }
     else if (this.image === 4){
-      enemiesImg.src = 'spooky-morty.png';
+      enemiesImg.src = 'src/images/spooky-morty.png';
     }
     else if (this.image === 5){
-      enemiesImg.src = 'punk-morty.png';
+      enemiesImg.src = 'src/images/punk-morty.png';
     }
     else if (this.image === 6){
-      enemiesImg.src = 'renegade-morty.png';
+      enemiesImg.src = 'src/images/renegade-morty.png';
     }
     else if (this.image === 7){
-      enemiesImg.src = 'animatronic-morty.png';
+      enemiesImg.src = 'src/images/animatronic-morty.png';
     }
     else if (this.image === 8){
-      enemiesImg.src = 'spliced-morty.png';
+      enemiesImg.src = 'src/images/spliced-morty.png';
     }
     else if (this.image === 9){
-      enemiesImg.src = 'pizza-morty.png';
+      enemiesImg.src = 'src/images/pizza-morty.png';
     }
     else if (this.image === 10){
-      enemiesImg.src = 'dracula-morty.png';
+      enemiesImg.src = 'src/images/dracula-morty.png';
     }
     else if (this.image === 11){
-      enemiesImg.src = 'ghost-morty.png';
+      enemiesImg.src = 'src/images/ghost-morty.png';
     }
     else if (this.image === 12){
-      enemiesImg.src = 'angry-morty.png';
+      enemiesImg.src = 'src/images/angry-morty.png';
     }
     this.y += this.speedY;
     ctx.drawImage(enemiesImg, this.x, this.y, this.width, this.height);

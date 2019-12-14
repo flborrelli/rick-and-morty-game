@@ -8,9 +8,9 @@ Enjoy!
 
 Version: Beta 1
 
-![](/readme-image1.png)
+![](/src/images/readme-image1.png)
 
-![](/screenshot3.png)
+![](/src/image/screenshot3.png)
 
 ## Installation
 
@@ -44,7 +44,7 @@ Watchout: Morty touch will decrease two Ricks' lifes.
 ## Contributing
 >This is an open-source and free software. Please, feel free to collaborate =).
 
-1. Fork it (<https://github.com/flborrelli/sponge-bob-game/fork>)
+1. Fork it (<https://flborrelli.github.io/rick-and-morty-game/fork>)
 2. Create your feature branch (`git checkout -b feature/fooBar`)
 3. Commit your changes (`git commit -am 'Add some fooBar'`)
 4. Push to the branch (`git push origin feature/fooBar`)

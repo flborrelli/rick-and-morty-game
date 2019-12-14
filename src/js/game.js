@@ -6,13 +6,13 @@ const ctx = gameBoard.getContext("2d");
 let frames = 0;
 let requestId = 0;
 let pauseGame = false;
-const themeSong = new Audio('theme.mp3');
-const hitMorty = new Audio('tiny-rick.wav');
-const shoot = new Audio('shot.mp3');
-const portal = new Audio('portal.mp3');
+const themeSong = new Audio('src/audio/theme.mp3');
+const hitMorty = new Audio('src/audio/tiny-rick.wav');
+const shoot = new Audio('src/audio/shot.mp3');
+const portal = new Audio('src/audio/portal.mp3');
 
 let background = new Image();
-background.src = 'background2.png';
+background.src = 'src/images/background-canvas.png';
 ctx.drawImage(background, 0, 0, gameBoard.width, gameBoard.height);
 
 const pauseNow = () => {
@@ -29,7 +29,7 @@ const pauseNow = () => {
 }
 
 //Calling new Rick
-const bigAlien = new Alien("blue");
+const bigRick = new Rick("blue");
 
 //Animation
 //1. Clear the canvas
@@ -37,30 +37,30 @@ const clearGameBoard = () => {
   ctx.drawImage(background, 0, 0, gameBoard.width, gameBoard.height);
 }
 
-// 2. Moving Alien and Bullets
+// 2. Moving Rick and Bullets
 
 //Turn Rick
 let moveLeft = false;
 let moveRight = false;
 let moveBackward = false;
 
-// Moving Alien by keyboard clicks
+// Moving Rick by keyboard clicks
 document.onkeydown = function(e) {
   switch (e.keyCode) {
     case 38: // up arrow
-      bigAlien.speedY -= 15;
+      bigRick.speedY -= 15;
       break;
     case 40: // down arrow
       moveBackward = true;
-      bigAlien.speedY += 15;
+      bigRick.speedY += 15;
       break;
     case 37: // left arrow
       moveLeft = true;
-      bigAlien.speedX -= 15;
+      bigRick.speedX -= 15;
       break;
     case 39: // right arrow
     moveRight = true;
-      bigAlien.speedX += 15;
+      bigRick.speedX += 15;
       break;
     case 32: // spacebar
       shoot.play();
@@ -77,8 +77,8 @@ document.onkeyup = function(e) {
   moveLeft = false;
   moveRight = false;
   moveBackward = false;
-  bigAlien.speedX = 0;
-  bigAlien.speedY = 0;
+  bigRick.speedX = 0;
+  bigRick.speedY = 0;
 };
 
 //3. Scores
@@ -95,12 +95,12 @@ const gameScore = () => {
   };
 
 //4. Lifes
-const updateAlienLife = () => {
-  let alienLifes = bigAlien.lifes;
+const updateRickLife = () => {
+  let rickLifes = bigRick.lifes;
   ctx.font = "20px Ricks";
   ctx.fillStyle = "#97ce4c";
   ctx.fillText(
-    `Lifes: ${alienLifes}`,
+    `Lifes: ${rickLifes}`,
     (gameBoard.width / 4) * 3.4,
     (gameBoard.height / 100) * 10
   );
@@ -108,14 +108,14 @@ const updateAlienLife = () => {
   enemiesArray.forEach((element, idx) => {
     if (element.y > gameBoard.height) {
       portal.play();
-      bigAlien.lifes -= 1;
+      bigRick.lifes -= 1;
       enemiesArray.splice(idx, 1);
     }
   });
 };
 
 const checkGameOver = () => {
-  if (bigAlien.lifes < 1) {
+  if (bigRick.lifes < 1) {
     ctx.font = "150px Ricks";
     ctx.fillStyle = "plum";
     ctx.fillText("GAME OVER", (gameBoard.width / 2) - 300, gameBoard.height / 2);
@@ -131,15 +131,15 @@ const checkGameOver = () => {
 const playTheGame = () => {
   console.log("updating...");
   clearGameBoard();
-  bigAlien.drawAlien();
-  bigAlien.alienNewPos();
+  bigRick.drawRick();
+  bigRick.rickNewPos();
   addNewEnemiesToEnemiesArray();
   createNewEnemies();
   createNewBullets();
-  updateAlienLife();
+  updateRickLife();
   gameScore();
   enemyHitByBullet(enemiesArray, bulletsArray);
-  alienHitByEnemy(enemiesArray);
+  rickHitByEnemy(enemiesArray);
   themeSong.play();
   frames += 1;
   requestId = window.requestAnimationFrame(playTheGame);
