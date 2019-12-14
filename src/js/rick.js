@@ -1,5 +1,3 @@
-//Main character (Rick)
-
 let rickImg = new Image();
 
 class Rick {
@@ -14,7 +12,6 @@ class Rick {
     this.lifes = 10;
   }
 
-  //Draw Rick and change image depending on onkey
   drawRick() {
     if (!moveLeft && !moveRight && !moveBackward){
       rickImg.src = 'src/images/rick.png';
@@ -31,7 +28,6 @@ class Rick {
     ctx.drawImage(rickImg, this.x, this.y, this.width, this.height);
   }
 
-  //New position after keyboard clicks
   rickNewPos() {
     this.y += this.speedY;
     if (this.y < 0) {

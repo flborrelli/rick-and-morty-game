@@ -1,7 +1,5 @@
-//BULETS
 let pickle = new Image();
 
-//Bullets array
 let bulletsArray = [];
 
 class Bullets {
@@ -19,22 +17,18 @@ class Bullets {
     pickle.src = 'src/images/pickle2.png';
     ctx.drawImage(pickle, this.x, this.y, this.width, this.height);
   }
-  //Bullet new position after shooting (spacebar keyboard click)
   bulletNewPos() {
-    //If bullet is shooted, move it according to its speed
     if(this.speedY > 0){
       this.y -= this.speedY;
     }
       }
   
-  //Remove Bullets that reached canvas's top
   removeBullets(idx, arr) {
     if(this.y < 0){
       arr.splice(idx, 1);
     }
   }
 
-  //Sides of the bullet
   top() {
     return this.y;
   }
@@ -54,13 +48,10 @@ const addNewBulletsToBulletsArray = () => {
   bulletsArray.push(bullets);
 };
 
-//Remove enemies and bullets after collision
 const enemyHitByBullet = (arr1, arr2) => {
   for (let i = 0; i < arr2.length; i += 1){
     for (let j = 0; j < arr1.length; j += 1){
-      // console.log('Enemies Array:', i, arr1.length);
       if((arr1[j].bottom() > arr2[i].top()) && (arr1[j].left() < arr2[i].right()) && (arr1[j].right() > arr2[i].left())){
-        // console.log("acertou");
         hitMorty.play();
         arr1.splice(j, 1);
         arr2.splice(i, 1);
@@ -69,7 +60,6 @@ const enemyHitByBullet = (arr1, arr2) => {
   }
 }
 
-//Loop the array and draw a new bullets for each array element
 const createNewBullets = () => {
   bulletsArray.forEach((element, idx) => {
     element.drawBullets()

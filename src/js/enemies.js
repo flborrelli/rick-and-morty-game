@@ -10,11 +10,9 @@ class Enemies {
     this.height = 80;
     this.x = Math.floor(Math.random() * (gameBoard.width - this.width));
     this.y = 0;
-    this.speedY = 1+ Math.floor(Math.random() * 6); //random speed Y
-    // this.speedY = 6;
+    this.speedY = 1+ Math.floor(Math.random() * 6);
   }
 
-  //Draw Enemy
   drawEnemies() {
     if (this.image === 1){
       enemiesImg.src = 'src/images/pocket-morty.png';
@@ -56,7 +54,6 @@ class Enemies {
     ctx.drawImage(enemiesImg, this.x, this.y, this.width, this.height);
   }
 
-  //Sides of the enemy
   top() {
     return this.y;
   }
@@ -75,14 +72,12 @@ class Enemies {
 }
 }
 
-// Creating Random Enemies
-//Add new enemy to our enemies array after 4 seconds (our game is running 60 FPS because of request animation frame)
 const addNewEnemiesToEnemiesArray = () => {
   if (frames % 120 === 0) {
     enemiesArray.push(new Enemies());
   }
 };
-// Loop the array and draw a new enemy for each array element
+
 const createNewEnemies = () =>
   enemiesArray.forEach(element => element.drawEnemies());
 

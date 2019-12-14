@@ -2,7 +2,7 @@
 
 The Green Portal Under Attack is a Rick and Morty 2D Game build in HTML5 canvas, CSS3 and JavaScript.
 
-#### TLDR: https://flborrelli.github.io/rick-and-morty-game/
+#### Game URL: https://flborrelli.github.io/rick-and-morty-game/
 
 Enjoy!
 
@@ -10,9 +10,11 @@ Version: Beta 1
 
 ![](/src/images/readme-image1.png)
 
-![](/src/image/screenshot3.png)
+![](/src/images/screenshot3.png)
 
 ## Installation
+
+Just acess this link (https://flborrelli.github.io/rick-and-morty-game/) and press Start Game.
 
 ## Usage
 

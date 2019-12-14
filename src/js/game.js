@@ -1,6 +1,5 @@
 console.log("If you are reading this message, we are all good brotha!");
 
-//Setting our canvas game-board (800 x 500)
 const gameBoard = document.getElementById("game-board");
 const ctx = gameBoard.getContext("2d");
 let frames = 0;
@@ -18,7 +17,7 @@ ctx.drawImage(background, 0, 0, gameBoard.width, gameBoard.height);
 const pauseNow = () => {
   pauseGame = !pauseGame;
     if(!pauseGame){
-      requestId = requestAnimationFrame(playTheGame);
+      requestId = requestAnimationFrame(engine);
     }else {
       ctx.font = '200px Ricks';
       ctx.fillStyle = 'lightseagreen';
@@ -28,23 +27,16 @@ const pauseNow = () => {
     }
 }
 
-//Calling new Rick
 const bigRick = new Rick("blue");
 
-//Animation
-//1. Clear the canvas
 const clearGameBoard = () => {
   ctx.drawImage(background, 0, 0, gameBoard.width, gameBoard.height);
 }
 
-// 2. Moving Rick and Bullets
-
-//Turn Rick
 let moveLeft = false;
 let moveRight = false;
 let moveBackward = false;
 
-// Moving Rick by keyboard clicks
 document.onkeydown = function(e) {
   switch (e.keyCode) {
     case 38: // up arrow
@@ -72,7 +64,7 @@ document.onkeydown = function(e) {
       console.log(`${e.key} is not a valid key!`);
   }
 };
-//Cut speed after the button was pressed
+
 document.onkeyup = function(e) {
   moveLeft = false;
   moveRight = false;
@@ -81,7 +73,6 @@ document.onkeyup = function(e) {
   bigRick.speedY = 0;
 };
 
-//3. Scores
 const gameScore = () => {
   let score = Math.floor(frames / 60);
   ctx.font = "20px Ricks";
@@ -94,7 +85,6 @@ const gameScore = () => {
     return score;
   };
 
-//4. Lifes
 const updateRickLife = () => {
   let rickLifes = bigRick.lifes;
   ctx.font = "20px Ricks";
@@ -104,14 +94,13 @@ const updateRickLife = () => {
     (gameBoard.width / 4) * 3.4,
     (gameBoard.height / 100) * 10
   );
-  //Every time an enemy cross the max height, Spongebob lost one life
   enemiesArray.forEach((element, idx) => {
     if (element.y > gameBoard.height) {
       portal.play();
       bigRick.lifes -= 1;
       enemiesArray.splice(idx, 1);
     }
-  });
+  })
 };
 
 const checkGameOver = () => {
@@ -127,8 +116,7 @@ const checkGameOver = () => {
   }
 };
 
-//Big function to call the game process (clear, draw, update...)
-const playTheGame = () => {
+const engine = () => {
   console.log("updating...");
   clearGameBoard();
   bigRick.drawRick();
@@ -142,16 +130,14 @@ const playTheGame = () => {
   rickHitByEnemy(enemiesArray);
   themeSong.play();
   frames += 1;
-  requestId = window.requestAnimationFrame(playTheGame);
+  requestId = window.requestAnimationFrame(engine);
   checkGameOver();;
 };  
 
-//Buttons click
 window.onload = function () {
   document.getElementById("start-button").onclick = function (event) {
-    window.requestAnimationFrame(playTheGame);
+    window.requestAnimationFrame(engine);
     event.target.disabled = true;
-    // event.target.disabled = false;
   };
   document.getElementById("pause-button").onclick = function () {
     pauseNow();
